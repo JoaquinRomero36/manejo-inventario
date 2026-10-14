@@ -73,7 +73,8 @@ public class ProductosModel : PageModel
             {
                 CantidadDisponible = 0,
                 CantidadMinima = request.CantidadMinima,
-                AlertaActiva = false
+                // El alta arranca con stock 0: si el mínimo es mayor a 0, la alerta ya nace activa.
+                AlertaActiva = 0 < request.CantidadMinima
             }
         };
 

@@ -111,3 +111,12 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
     (es la operación inversa de deshabilitar) y no altera sus productos ni su stock. El invariante
     se mantiene en el otro sentido: para **deshabilitar** se sigue exigiendo que la categoría **no**
     tenga productos activos.
+
+22. **Coherencia de la alerta de stock.**
+    El flag `Stock.alerta_activa` (fuente del banner de Operaciones y de la columna *Estado*) se
+    mantiene siempre igual a `cantidad_disponible < cantidad_minima`:
+    - al **crear** un producto arranca con stock 0, así que la alerta nace activa si el mínimo es
+      mayor a 0;
+    - al **sacar** stock se activa si el disponible queda por debajo del mínimo;
+    - al **agregar** stock se desactiva al alcanzar el mínimo.
+    Antes, el alta guardaba la alerta en `false` fijo y un producto nuevo con stock 0 no avisaba.
