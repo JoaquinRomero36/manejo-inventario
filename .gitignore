@@ -20,6 +20,8 @@ __pycache__/
 *.py[cod]
 
 # Builds y compilados
+bin/
+obj/
 dist/
 build/
 out/
@@ -31,11 +33,19 @@ target/
 # Editor/IDE
 .vscode/
 .idea/
+.vs/
+*.user
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.swp
+
+# EF / BD
+*.db
+*.db-shm
+*.db-wal
+Migrations/*.Designer.cs
 
 # Cobertura / tests
 coverage/
@@ -46,3 +56,6 @@ coverage/
 .temp/
 .cache/
 .ropeproject/
+*.jfm
+*.dbmdl
+*.userprefs
