@@ -1,0 +1,102 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2><i class="fa fa-dashboard" aria-hidden="true"></i> Dashboard</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Productos con alerta activa
+                <span class="badge">@Model.ProductosConAlerta.Count</span>
+            </div>
+            <div class="panel-body">
+                @if (!Model.ProductosConAlerta.Any())
+                {
+                    <p class="text-muted">No hay productos con alerta activa.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Categoría</th>
+                                    <th class="text-right">Disponible</th>
+                                    <th class="text-right">Mínimo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var p in Model.ProductosConAlerta)
+                                {
+                                    <tr>
+                                        <td>@p.Producto</td>
+                                        <td>@p.Categoria</td>
+                                        <td class="text-right text-danger"><strong>@p.CantidadDisponible</strong></td>
+                                        <td class="text-right">@p.CantidadMinima</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-history" aria-hidden="true"></i> Últimos movimientos
+            </div>
+            <div class="panel-body">
+                @if (!Model.UltimosMovimientos.Any())
+                {
+                    <p class="text-muted">Aún no hay movimientos registrados.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Producto</th>
+                                    <th>Tipo</th>
+                                    <th class="text-right">Cant.</th>
+                                    <th>Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var m in Model.UltimosMovimientos)
+                                {
+                                    <tr>
+                                        <td>@m.Fecha.ToString("dd/MM/yy HH:mm")</td>
+                                        <td>@m.Producto</td>
+                                        <td>
+                                            @if (m.Tipo == "Agregar")
+                                            {
+                                                <span class="label label-success">Agregar</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-warning">Sacar</span>
+                                            }
+                                        </td>
+                                        <td class="text-right">@m.Cantidad</td>
+                                        <td>@m.Usuario</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

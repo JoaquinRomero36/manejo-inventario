@@ -1,22 +1,76 @@
-html {
-  font-size: 14px;
+/* Estilos propios de Inventario Admin (Bootstrap 3) */
+:root {
+    --color-primario: #337ab7;
+    --color-exito: #5cb85c;
+    --color-peligro: #d9534f;
+    --color-fondo: #f5f7fa;
+    --color-texto: #333;
+    --espacio: 16px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+    color: var(--color-texto);
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--color-fondo);
+    font-size: 14px;
+}
+
+.main-container {
+    padding: var(--espacio);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.navbar-form {
+    padding: 8px 15px;
+    margin: 0;
+}
+
+.login-panel {
+    margin-top: 60px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+table.dataTable thead th {
+    background-color: #eef2f7;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+/* Botones de DataTables Buttons */
+.dt-buttons {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+    .main-container {
+        padding: 8px;
+    }
+
+    .navbar-text {
+        display: none;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .login-panel {
+        margin-top: 20px;
+    }
+
+    .page-header h2 .pull-right {
+        float: none !important;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 13px;
+    }
 }

@@ -1,0 +1,47 @@
+@page
+@model HistorialModel
+@{
+    ViewData["Title"] = "Historial de movimientos";
+}
+
+<h2><i class="fa fa-history" aria-hidden="true"></i> Historial de movimientos</h2>
+<hr />
+
+<table id="tablaHistorial" class="table table-striped table-bordered table-condensed" style="width:100%">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th>Tipo</th>
+            <th class="text-right">Cantidad</th>
+            <th>Descripción</th>
+            <th>Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model.Movimientos)
+        {
+            <tr>
+                <td>@m.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@m.Producto</td>
+                <td>
+                    @if (m.Tipo == "Agregar")
+                    {
+                        <span class="label label-success">Agregar</span>
+                    }
+                    else
+                    {
+                        <span class="label label-warning">Sacar</span>
+                    }
+                </td>
+                <td class="text-right">@m.Cantidad</td>
+                <td>@m.Descripcion</td>
+                <td>@m.Usuario</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/historial.js"></script>
+}

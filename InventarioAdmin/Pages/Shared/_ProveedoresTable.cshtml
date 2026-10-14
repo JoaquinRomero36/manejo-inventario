@@ -1,0 +1,34 @@
+@model List<ProveedorFila>
+@* Parcial de la tabla de proveedores (ABM simple, App Admin). *@
+
+<table id="tablaProveedores" class="table table-striped table-bordered table-condensed" style="width:100%">
+    <thead>
+        <tr>
+            <th>Número</th>
+            <th>Gmail</th>
+            <th>Descripción</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fila in Model)
+        {
+            <tr>
+                <td>@fila.Numero</td>
+                <td>@fila.Gmail</td>
+                <td>@fila.Descripcion</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-primary btn-xs btn-editar"
+                            data-id="@fila.Id" data-numero="@fila.Numero"
+                            data-gmail="@fila.Gmail" data-descripcion="@fila.Descripcion">
+                        <i class="fa fa-pencil" aria-hidden="true"></i> Editar
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs btn-eliminar"
+                            data-id="@fila.Id" data-numero="@fila.Numero">
+                        <i class="fa fa-trash" aria-hidden="true"></i> Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

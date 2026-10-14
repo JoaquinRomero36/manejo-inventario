@@ -1,0 +1,45 @@
+@model List<CategoriaFila>
+@* Parcial de la tabla de categorías (App Admin). *@
+
+<table id="tablaCategorias" class="table table-striped table-bordered table-condensed" style="width:100%">
+    <thead>
+        <tr>
+            <th>Descripción</th>
+            <th class="text-center">Productos activos</th>
+            <th class="text-center">Estado</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fila in Model)
+        {
+            <tr>
+                <td>@fila.Descripcion</td>
+                <td class="text-center">@fila.ProductosActivos</td>
+                <td class="text-center">
+                    @if (fila.Activo)
+                    {
+                        <span class="label label-success">Activa</span>
+                    }
+                    else
+                    {
+                        <span class="label label-default">Inactiva</span>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (fila.Activo)
+                    {
+                        <button type="button" class="btn btn-danger btn-xs btn-deshabilitar"
+                                data-id="@fila.Id" data-nombre="@fila.Descripcion">
+                            <i class="fa fa-ban" aria-hidden="true"></i> Deshabilitar
+                        </button>
+                    }
+                    else
+                    {
+                        <span class="text-muted">-</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

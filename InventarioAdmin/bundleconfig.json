@@ -1,0 +1,65 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/productos.min.js",
+    "inputFiles": [
+      "wwwroot/js/productos.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/categorias.min.js",
+    "inputFiles": [
+      "wwwroot/js/categorias.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/usuarios.min.js",
+    "inputFiles": [
+      "wwwroot/js/usuarios.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/proveedores.min.js",
+    "inputFiles": [
+      "wwwroot/js/proveedores.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/historial.min.js",
+    "inputFiles": [
+      "wwwroot/js/historial.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  }
+]

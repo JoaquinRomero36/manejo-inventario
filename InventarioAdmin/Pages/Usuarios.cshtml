@@ -1,0 +1,94 @@
+@page
+@model UsuariosModel
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="page-header">
+    <h2>
+        <i class="fa fa-users" aria-hidden="true"></i> Usuarios
+        <button type="button" class="btn btn-primary pull-right" id="btnNuevo">
+            <i class="fa fa-plus" aria-hidden="true"></i> Nuevo usuario
+        </button>
+    </h2>
+</div>
+
+<div class="alert alert-success hidden" id="alertaExito" role="alert"></div>
+
+<div id="contenedorTabla">
+    <partial name="_UsuariosTable" model="Model.Filas" />
+</div>
+
+<!-- Modal alta de usuario -->
+<div class="modal fade" id="modalUsuario" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Nuevo usuario</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger hidden" id="errorModal" role="alert"></div>
+
+                <div class="form-group">
+                    <label for="nombre">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" id="nombre" class="form-control" maxlength="200" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email <span class="text-danger">*</span></label>
+                    <input type="text" id="email" class="form-control" maxlength="200" />
+                </div>
+
+                <div class="form-group">
+                    <label for="rol">Rol <span class="text-danger">*</span></label>
+                    <select id="rol" class="form-control">
+                        <option value="normal">normal</option>
+                        <option value="admin">admin</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña inicial <span class="text-danger">*</span></label>
+                    <input type="password" id="password" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal cambio de contraseña -->
+<div class="modal fade" id="modalPassword" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Cambiar contraseña</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger hidden" id="errorModalPassword" role="alert"></div>
+                <p>Usuario: <strong id="nombreUsuarioPassword"></strong></p>
+                <div class="form-group">
+                    <label for="passwordNueva">Nueva contraseña <span class="text-danger">*</span></label>
+                    <input type="password" id="passwordNueva" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarPassword">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/usuarios.js"></script>
+}

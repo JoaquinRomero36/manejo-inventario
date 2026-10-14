@@ -1,0 +1,49 @@
+@page
+@model CategoriasModel
+@{
+    ViewData["Title"] = "Categorías";
+}
+
+<div class="page-header">
+    <h2>
+        <i class="fa fa-tags" aria-hidden="true"></i> Categorías
+        <button type="button" class="btn btn-primary pull-right" id="btnNueva">
+            <i class="fa fa-plus" aria-hidden="true"></i> Nueva categoría
+        </button>
+    </h2>
+</div>
+
+<div class="alert alert-success hidden" id="alertaExito" role="alert"></div>
+
+<div id="contenedorTabla">
+    <partial name="_CategoriasTable" model="Model.Filas" />
+</div>
+
+<!-- Modal alta de categoría -->
+<div class="modal fade" id="modalCategoria" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Nueva categoría</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger hidden" id="errorModal" role="alert"></div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción <span class="text-danger">*</span></label>
+                    <input type="text" id="descripcion" class="form-control" maxlength="500" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/categorias.js"></script>
+}

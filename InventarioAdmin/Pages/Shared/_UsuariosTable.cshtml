@@ -1,0 +1,42 @@
+@model List<UsuarioFila>
+@* Parcial de la tabla de usuarios (App Admin). *@
+
+<table id="tablaUsuarios" class="table table-striped table-bordered table-condensed" style="width:100%">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th class="text-center">Rol</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fila in Model)
+        {
+            <tr>
+                <td>@fila.Nombre</td>
+                <td>@fila.Email</td>
+                <td class="text-center">
+                    @if (fila.Rol == "admin")
+                    {
+                        <span class="label label-primary">admin</span>
+                    }
+                    else
+                    {
+                        <span class="label label-info">normal</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning btn-xs btn-password"
+                            data-id="@fila.Id" data-nombre="@fila.Nombre">
+                        <i class="fa fa-key" aria-hidden="true"></i> Contraseña
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs btn-deshabilitar"
+                            data-id="@fila.Id" data-nombre="@fila.Nombre">
+                        <i class="fa fa-ban" aria-hidden="true"></i> Deshabilitar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -11,6 +11,9 @@ Thumbs.db
 *.log
 logs/
 
+# Claves de protección de datos (no versionar)
+keys/
+
 # Dependencias
 node_modules/
 vendor/

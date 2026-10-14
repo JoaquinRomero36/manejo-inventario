@@ -1,0 +1,49 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-default login-panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-lock" aria-hidden="true"></i> Inventario Admin
+                </h3>
+            </div>
+            <div class="panel-body">
+                @if (!string.IsNullOrEmpty(Model.ErrorMensaje))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> @Model.ErrorMensaje
+                    </div>
+                }
+
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" autofocus />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i> Ingresar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

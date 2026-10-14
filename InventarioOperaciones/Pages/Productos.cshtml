@@ -1,0 +1,52 @@
+@page
+@model ProductosModel
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h2><i class="fa fa-cubes" aria-hidden="true"></i> Productos</h2>
+<hr />
+
+<div class="alert alert-success hidden" id="alertaExito" role="alert"></div>
+
+<div id="contenedorTabla">
+    <partial name="_ProductsTable" model="Model.Filas" />
+</div>
+
+<!-- Modal para agregar / sacar stock -->
+<div class="modal fade" id="modalMovimiento" tabindex="-1" role="dialog" aria-labelledby="tituloMovimiento">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="tituloMovimiento">Movimiento de stock</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger hidden" id="errorModal" role="alert"></div>
+
+                <p>Producto: <strong id="nombreProducto"></strong></p>
+
+                <div class="form-group">
+                    <label for="cantidad">Cantidad <span class="text-danger">*</span></label>
+                    <input type="number" id="cantidad" class="form-control" min="1" step="1" value="1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción / motivo <span class="text-danger">*</span></label>
+                    <input type="text" id="descripcion" class="form-control" maxlength="500"
+                           placeholder="Venta, rotura, error de conteo, compra..." />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/productos.js"></script>
+}
