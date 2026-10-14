@@ -1,0 +1,48 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Entornos
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Dependencias
+node_modules/
+vendor/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Builds y compilados
+dist/
+build/
+out/
+target/
+*.class
+*.o
+*.exe
+
+# Editor/IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Cobertura / tests
+coverage/
+.nyc_output/
+
+# Otros
+.tmp/
+.temp/
+.cache/
+.ropeproject/
