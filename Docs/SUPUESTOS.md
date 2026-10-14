@@ -120,3 +120,10 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
     - al **sacar** stock se activa si el disponible queda por debajo del mínimo;
     - al **agregar** stock se desactiva al alcanzar el mínimo.
     Antes, el alta guardaba la alerta en `false` fijo y un producto nuevo con stock 0 no avisaba.
+
+23. **Banner de alertas a casi todo el alto, sin scroll (pantalla táctil).**
+    En pantallas grandes (ancho ≥ 992 px) el panel de alertas ocupa casi todo el alto de la ventana
+    (`height: calc(100vh - 104px)`), dejando un margen. Como la pantalla es **táctil**, la lista
+    **no scrollea**: se calcula cuántos productos entran y se muestran solo esos, navegando con las
+    flechas **◀ Atrás** / **Adelante ▶** y un contador *página / total*. Si todo entra en una sola
+    página, las flechas no se muestran. En pantallas chicas el panel queda con su alto natural.

@@ -23,6 +23,8 @@ de datos SQL Server. No comparten código: cada una tiene sus propias entidades,
   Su pantalla de inicio es el **Historial**, con un **banner de stock a la izquierda**: si hay
   productos con la alerta activa muestra el mensaje de alerta; si no hay ninguna, muestra los
   **3 productos más cerca del mínimo**. Los movimientos se hacen desde la pestaña *Productos*.
+  En pantallas grandes el banner ocupa casi todo el alto y su lista **no scrollea**: muestra solo
+  los productos que entran y se recorre con las flechas **◀ Atrás / Adelante ▶**.
 
 ## Stack
 

@@ -21,17 +21,20 @@
                         Hay <strong>@Model.Alertas.Count</strong>
                         producto(s) por debajo del mínimo.
                     </p>
-                    <ul class="list-unstyled alerta-stock-lista">
-                        @foreach (var a in Model.Alertas)
-                        {
-                            <li>
-                                <span class="alerta-stock-nombre">@a.Nombre</span>
-                                <span class="alerta-stock-cifras">
-                                    disponible <strong>@a.CantidadDisponible</strong> / mínimo @a.CantidadMinima
-                                </span>
-                            </li>
-                        }
-                    </ul>
+                    <div class="alerta-stock-cuerpo">
+                        <ul class="list-unstyled alerta-stock-lista">
+                            @foreach (var a in Model.Alertas)
+                            {
+                                <li>
+                                    <span class="alerta-stock-nombre">@a.Nombre</span>
+                                    <span class="alerta-stock-cifras">
+                                        disponible <strong>@a.CantidadDisponible</strong> / mínimo @a.CantidadMinima
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <partial name="_PaginacionAlertas" />
                 </div>
             </div>
         }
@@ -50,17 +53,20 @@
                     @if (Model.CercanosAlMinimo.Count > 0)
                     {
                         <p class="alerta-stock-subtitulo">Los más cerca del mínimo:</p>
-                        <ul class="list-unstyled alerta-stock-lista">
-                            @foreach (var p in Model.CercanosAlMinimo)
-                            {
-                                <li>
-                                    <span class="alerta-stock-nombre">@p.Nombre</span>
-                                    <span class="alerta-stock-cifras">
-                                        disponible <strong>@p.CantidadDisponible</strong> / mínimo @p.CantidadMinima
-                                    </span>
-                                </li>
-                            }
-                        </ul>
+                        <div class="alerta-stock-cuerpo">
+                            <ul class="list-unstyled alerta-stock-lista">
+                                @foreach (var p in Model.CercanosAlMinimo)
+                                {
+                                    <li>
+                                        <span class="alerta-stock-nombre">@p.Nombre</span>
+                                        <span class="alerta-stock-cifras">
+                                            disponible <strong>@p.CantidadDisponible</strong> / mínimo @p.CantidadMinima
+                                        </span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <partial name="_PaginacionAlertas" />
                     }
                 </div>
             </div>

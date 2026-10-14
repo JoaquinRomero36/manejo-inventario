@@ -74,13 +74,26 @@ table.dataTable thead .sorting_desc::after { content: "\f0dd"; color: #337ab7; }
     margin: 0 2px;
 }
 
-/* Banner de alertas de stock (lado izquierdo del historial) */
+/* Banner de alertas de stock (lado izquierdo del historial).
+   En la pantalla táctil el panel ocupa casi todo el alto y la lista NO scrollea:
+   solo se muestran los productos que entran y se navega con las flechas. */
 .alerta-stock {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .alerta-stock .panel-heading {
     font-weight: 600;
+}
+
+.alerta-stock > .panel-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .alerta-stock-resumen {
@@ -94,17 +107,24 @@ table.dataTable thead .sorting_desc::after { content: "\f0dd"; color: #337ab7; }
     letter-spacing: 0.5px;
 }
 
+/* Zona de la lista: se estira y recorta lo que no entra (sin scroll). */
+.alerta-stock-cuerpo {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
 .alerta-stock-lista {
     margin: 0;
 }
 
 .alerta-stock-lista li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    padding: 10px 0;
 }
 
-.alerta-stock-lista li:last-child {
-    border-bottom: none;
+/* Separador solo entre elementos visibles. */
+.alerta-stock-lista li + li {
+    border-top: 1px solid #eee;
 }
 
 .alerta-stock-nombre {
@@ -119,11 +139,34 @@ table.dataTable thead .sorting_desc::after { content: "\f0dd"; color: #337ab7; }
     color: #777;
 }
 
-/* En pantallas grandes el banner queda fijo mientras se recorre el historial */
+/* Flechas de navegación de la lista (solo se ven si hay más de una página). */
+.alerta-stock-paginacion {
+    display: none;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #ddd;
+}
+
+.alerta-stock-paginacion.paginacion-visible {
+    display: flex;
+}
+
+.alerta-stock-contador {
+    font-size: 12px;
+    color: #777;
+    white-space: nowrap;
+}
+
+/* En pantallas grandes el banner queda fijo mientras se recorre el historial
+   y ocupa casi todo el alto de la ventana (dejando un margen). */
 @media (min-width: 992px) {
     .alerta-stock {
         position: sticky;
         top: var(--espacio);
+        height: calc(100vh - 104px);
     }
 }
 
