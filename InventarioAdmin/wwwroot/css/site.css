@@ -134,8 +134,39 @@ table.dataTable thead .sorting_desc::after { content: "\f0dd"; color: #337ab7; }
     }
 }
 
-@media (max-width: 480px) {
-    body {
-        font-size: 13px;
-    }
+/* KPIs del Dashboard */
+.kpi-row {
+    margin-bottom: 10px;
+}
+
+.kpi-panel {
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.kpi-panel .panel-body {
+    padding: 12px 10px;
+}
+
+.kpi-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+    color: rgba(0,0,0,0.25);
+}
+
+.kpi-value {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
