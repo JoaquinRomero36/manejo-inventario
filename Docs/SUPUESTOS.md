@@ -64,3 +64,15 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
 
 14. **Una sola migración/base**: el esquema completo (incluida `Proveedor`) lo crea la App Admin.
     La App Operaciones mapea solo las tablas que usa.
+
+15. **Sin login (acceso físico).**
+    La bodega tiene dos pantallas y cada una corre una app distinta, así que **no hay login
+    obligatorio**: se quitó la exigencia de autenticación (`FallbackPolicy`) y el menú se muestra
+    siempre. La autenticación por cookie se dejó **registrada** solo para que las páginas
+    `Login`/`Logout` sigan compilando, pero quedan **sin uso**.
+
+16. **Atribución de movimientos sin login.**
+    `Movimiento.id_usuario` es obligatorio, así que los movimientos se atribuyen al **usuario
+    operador de la semilla** (el primer usuario con `rol = normal`). Si no existiera ningún usuario
+    `normal`, el servidor devuelve un error claro en vez de guardar un movimiento sin usuario.
+    El usuario admin queda solo como registro histórico.

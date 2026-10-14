@@ -1,6 +1,5 @@
 using InventarioOperaciones.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using NReco.Logging.File;
@@ -15,16 +14,15 @@ builder.Logging.AddFile("logs/inventario-operaciones-{Date}.log", options =>
     options.MaxRollingFiles = 7;
 });
 
-builder.Services.AddRazorPages(options =>
-{
-    options.Conventions.AllowAnonymousToPage("/Login");
-    options.Conventions.AllowAnonymousToPage("/AccessDenied");
-    options.Conventions.AllowAnonymousToPage("/Error");
-});
+// Sin autenticación obligatoria: la app entra directo al listado de productos.
+// Las páginas Login/Logout quedan sin uso (se conservan por si se reactivan).
+builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<InventarioDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// La autenticación por cookie se conserva registrada para que Login/Logout sigan compilando,
+// pero NO se exige login en ninguna página (no hay FallbackPolicy).
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -36,13 +34,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
         options.ExpireTimeSpan = TimeSpan.FromHours(2);
     });
-
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-});
 
 // Clave de protección de datos propia de esta app (nombre de aplicación y carpeta distintos).
 var keysPath = Path.Combine(builder.Environment.ContentRootPath, "keys");

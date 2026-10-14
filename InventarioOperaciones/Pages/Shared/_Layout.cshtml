@@ -1,7 +1,5 @@
-﻿@using System.Security.Claims
-@{
-    var nombre = User.FindFirst("nombre")?.Value ?? User.Identity?.Name ?? "Usuario";
-    var autenticado = User.Identity?.IsAuthenticated == true;
+﻿@{
+    // Sin login: no se muestra usuario ni botón de salida.
 }
 <!DOCTYPE html>
 <html lang="es">
@@ -18,42 +16,27 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    @if (autenticado)
-    {
-        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-principal">
-                        <span class="sr-only">Alternar navegación</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" asp-page="/Productos">
-                        <i class="fa fa-cubes" aria-hidden="true"></i> Inventario Operaciones
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse" id="menu-principal">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-page="/Productos"><i class="fa fa-list" aria-hidden="true"></i> Productos</a></li>
-                        <li><a asp-page="/Historial"><i class="fa fa-history" aria-hidden="true"></i> Historial</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="navbar-text">
-                            <i class="fa fa-user" aria-hidden="true"></i> @nombre
-                        </li>
-                        <li>
-                            <form asp-page="/Logout" method="post" class="navbar-form">
-                                <button type="submit" class="btn btn-default btn-sm">
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Salir
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-principal">
+                    <span class="sr-only">Alternar navegación</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" asp-page="/Productos">
+                    <i class="fa fa-cubes" aria-hidden="true"></i> Inventario Operaciones
+                </a>
             </div>
-        </nav>
-    }
+            <div class="collapse navbar-collapse" id="menu-principal">
+                <ul class="nav navbar-nav">
+                    <li><a asp-page="/Productos"><i class="fa fa-list" aria-hidden="true"></i> Productos</a></li>
+                    <li><a asp-page="/Historial"><i class="fa fa-history" aria-hidden="true"></i> Historial</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="container-fluid main-container">
         <main role="main">

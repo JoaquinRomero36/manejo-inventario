@@ -59,10 +59,10 @@ public class ProductosModel : PageModel
             return new JsonResult(new { ok = false, mensaje = "La descripción (motivo) es obligatoria." });
         }
 
-        var idUsuario = ObtenerUsuarioId();
+        var idUsuario = await ObtenerUsuarioActualIdAsync();
         if (idUsuario is null)
         {
-            return new JsonResult(new { ok = false, mensaje = "Sesión inválida. Vuelva a iniciar sesión." });
+            return new JsonResult(new { ok = false, mensaje = "No hay un usuario operador configurado en la base." });
         }
 
         var producto = await _db.Productos
@@ -166,10 +166,17 @@ public class ProductosModel : PageModel
             .ToListAsync();
     }
 
-    private int? ObtenerUsuarioId()
+    /// <summary>
+    /// Sin login: los movimientos se atribuyen al usuario operador de la semilla
+    /// (el primer usuario con rol normal, que es el creado por el DbInitializer).
+    /// </summary>
+    private async Task<int?> ObtenerUsuarioActualIdAsync()
     {
-        var valor = User.FindFirst("id")?.Value;
-        return int.TryParse(valor, out var id) ? id : null;
+        return await _db.Usuarios
+            .Where(u => u.Rol == RolUsuario.normal)
+            .OrderBy(u => u.Id)
+            .Select(u => (int?)u.Id)
+            .FirstOrDefaultAsync();
     }
 }
 

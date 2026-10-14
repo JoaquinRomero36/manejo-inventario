@@ -4,10 +4,15 @@ Dos aplicaciones ASP.NET Core 8 (Razor Pages) **independientes** que comparten u
 de datos SQL Server. No comparten código: cada una tiene sus propias entidades, su propio
 `DbContext` y su propia solución.
 
-| App | Carpeta | Usuarios | Rol admitido |
-|-----|---------|----------|--------------|
-| **InventarioAdmin** | `InventarioAdmin/` | Administrador | `admin` |
-| **InventarioOperaciones** | `InventarioOperaciones/` | Empleados | `normal` |
+| App | Carpeta | Usuarios | Entrada |
+|-----|---------|----------|---------|
+| **InventarioAdmin** | `InventarioAdmin/` | Encargado / administrador | Directo al Dashboard |
+| **InventarioOperaciones** | `InventarioOperaciones/` | Trabajadores de bodega | Directo a Productos |
+
+> **Sin login.** La separación de accesos es **física**: en la bodega hay dos pantallas, cada una
+> con una app distinta. No hay autenticación obligatoria; las páginas `Login`/`Logout` quedan
+> sin uso (se conservan por si se quiere reactivar el login más adelante).
+
 
 - **InventarioAdmin**: catálogo (categorías y productos), usuarios, proveedores e historial.
   Es la **única** que aplica migraciones y seed.
@@ -19,8 +24,8 @@ de datos SQL Server. No comparten código: cada una tiene sus propias entidades,
 - C# 12 / .NET 8 (LTS), proyectos SDK-style y `global.json` (SDK 8.0.319).
 - Razor Pages; los endpoints AJAX son **handlers del PageModel** (`?handler=...`).
 - EF Core **8.0.22** (provider SqlServer), Fluent API en `OnModelCreating`.
-- Cookie Authentication con claims (`id`, `nombre`, `rol`), antiforgery en todos los POST,
-  contraseñas con **PBKDF2** y sal por usuario.
+- Autenticación por cookie **registrada pero no exigida** (sin login obligatorio), antiforgery en
+  todos los POST, contraseñas con **PBKDF2** y sal por usuario.
 - Logging con `ILogger` + **NReco.Logging.File** (archivos en `logs/`).
 - Frontend vendorizado en `wwwroot/lib` (sin npm/Node): jQuery 2.2.0, Bootstrap 3.3.7,
   Font Awesome 4.7, DataTables 1.10.18 + Buttons, Select2 4.0.5, jQuery Validation + Unobtrusive.
@@ -61,7 +66,9 @@ El seed crea, si la base está vacía:
 - Usuario operador: `operador@inventario.local` / `Operador123!`
 - 3 categorías y 3 productos con su stock.
 
-> Cambiá esas contraseñas iniciales en cuanto puedas.
+> **Sin login**, los movimientos de stock se atribuyen al **usuario operador de la semilla**
+> (el primer usuario con rol `normal`). El usuario admin queda solo como registro histórico
+> y para la pantalla de Usuarios. Cambiá las contraseñas iniciales en cuanto puedas.
 
 ## 2) Correr en desarrollo (puertos distintos)
 
@@ -114,19 +121,18 @@ En IIS, crear **dos sitios** con **dos app pools** y **dos puertos/host** distin
 | InventarioOperaciones | InventarioOperacionesPool | 8082 | `...\InventarioOperaciones\bin\Release\net8.0\publish` |
 
 - Cada `web.config` ya usa `hostingModel="inprocess"` (AspNetCoreModuleV2).
-- Cada app tiene su **propia cookie** (`InventarioAdmin.Auth` / `InventarioOperaciones.Auth`)
-  y su **propia clave de protección de datos** (carpeta `keys/` y `SetApplicationName`),
-  por lo que **una sesión de una app no sirve en la otra**.
+- Cada app tiene su **propia clave de protección de datos** (carpeta `keys/` y `SetApplicationName`).
 - Dar permiso de lectura/escritura en la carpeta `keys/` (y `logs/`) a la identidad de cada app pool.
 
-## Validación de roles
+## Separación de accesos
 
-Cada app valida el rol en el servidor al iniciar sesión:
+La separación es **física**, no por login: hay dos pantallas en la bodega y cada una corre una app.
 
-- Admin solo deja entrar a `rol = admin`.
-- Operaciones solo deja entrar a `rol = normal`.
+- **Admin** (encargado): entra directo al Dashboard y administra catálogo, usuarios y proveedores.
+- **Operaciones** (trabajadores): entra directo a Productos y solo mueve stock / consulta historial.
 
-Un usuario con el rol equivocado ve "Su usuario no tiene permisos..." y no inicia sesión.
+No hay autenticación obligatoria. Las páginas `Login`/`Logout` quedan sin uso (se conservan por si
+más adelante se quiere reactivar el login).
 
 ## Estructura
 
