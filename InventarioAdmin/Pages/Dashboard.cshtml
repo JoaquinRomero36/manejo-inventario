@@ -9,25 +9,7 @@
 
 <!-- KPIs -->
 <div class="row kpi-row">
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
-        <div class="panel panel-primary kpi-panel">
-            <div class="panel-body text-center">
-                <div class="kpi-icon"><i class="fa fa-cubes" aria-hidden="true"></i></div>
-                <div class="kpi-value">@Model.TotalProductosActivos</div>
-                <div class="kpi-label">Productos activos</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
-        <div class="panel panel-info kpi-panel">
-            <div class="panel-body text-center">
-                <div class="kpi-icon"><i class="fa fa-tags" aria-hidden="true"></i></div>
-                <div class="kpi-value">@Model.TotalCategoriasActivas</div>
-                <div class="kpi-label">Categorías activas</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <div class="panel panel-danger kpi-panel">
             <div class="panel-body text-center">
                 <div class="kpi-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></div>
@@ -36,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <div class="panel panel-warning kpi-panel">
             <div class="panel-body text-center">
                 <div class="kpi-icon"><i class="fa fa-ban" aria-hidden="true"></i></div>
@@ -45,21 +27,21 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
-        <div class="panel panel-success kpi-panel">
-            <div class="panel-body text-center">
-                <div class="kpi-icon"><i class="fa fa-cube" aria-hidden="true"></i></div>
-                <div class="kpi-value">@Model.TotalUnidadesStock</div>
-                <div class="kpi-label">Unidades totales</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <div class="panel panel-default kpi-panel">
             <div class="panel-body text-center">
                 <div class="kpi-icon"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></div>
                 <div class="kpi-value">@Model.MovimientosHoy</div>
                 <div class="kpi-label">Movimientos hoy</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="panel panel-success kpi-panel">
+            <div class="panel-body text-center">
+                <div class="kpi-icon"><i class="fa fa-line-chart" aria-hidden="true"></i></div>
+                <div class="kpi-value kpi-small">@Model.ProductoMasMovidoSemana</div>
+                <div class="kpi-label">+movido (últ. 7 días) · @Model.CantidadMovidaSemana uds.</div>
             </div>
         </div>
     </div>

@@ -17,13 +17,12 @@ public class DashboardModel : PageModel
     public List<ProductoAlerta> ProductosConAlerta { get; set; } = new();
     public List<MovimientoResumen> UltimosMovimientos { get; set; } = new();
 
-    // KPIs
-    public int TotalProductosActivos { get; set; }
-    public int TotalCategoriasActivas { get; set; }
+    // KPIs útiles
     public int ProductosConAlertaCount { get; set; }
     public int ProductosActivosSinStock { get; set; }
-    public int TotalUnidadesStock { get; set; }
     public int MovimientosHoy { get; set; }
+    public string ProductoMasMovidoSemana { get; set; } = "-";
+    public int CantidadMovidaSemana { get; set; }
 
     public async Task OnGetAsync()
     {
@@ -63,18 +62,27 @@ public class DashboardModel : PageModel
 
         var hoy = DateTime.Today;
 
-        TotalProductosActivos = await _db.Productos.CountAsync(p => p.Activo);
-        TotalCategoriasActivas = await _db.Categorias.CountAsync(c => c.Activo);
         ProductosActivosSinStock = await _db.Stocks
             .AsNoTracking()
             .Include(s => s.Producto)
             .CountAsync(s => s.Producto != null && s.Producto.Activo && s.CantidadDisponible == 0);
-        TotalUnidadesStock = await _db.Stocks
-            .AsNoTracking()
-            .Include(s => s.Producto)
-            .Where(s => s.Producto != null && s.Producto.Activo)
-            .SumAsync(s => s.CantidadDisponible);
         MovimientosHoy = await _db.Movimientos.CountAsync(m => m.Fecha >= hoy);
+
+        var hace7 = hoy.AddDays(-6);
+        var topSemana = await _db.Movimientos
+            .AsNoTracking()
+            .Include(m => m.Producto)
+            .Where(m => m.Fecha >= hace7)
+            .GroupBy(m => new { m.IdProducto, ProductoNombre = m.Producto != null ? m.Producto.Nombre : "-" })
+            .Select(g => new { Producto = g.Key.ProductoNombre, Total = g.Sum(x => x.Cantidad) })
+            .OrderByDescending(x => x.Total)
+            .FirstOrDefaultAsync();
+
+        if (topSemana != null)
+        {
+            ProductoMasMovidoSemana = topSemana.Producto;
+            CantidadMovidaSemana = topSemana.Total;
+        }
     }
 }
 
