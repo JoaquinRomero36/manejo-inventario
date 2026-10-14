@@ -89,3 +89,10 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
 18. **Íconos de orden de DataTables.**
     La carpeta `images/` de DataTables no se vendorizó, así que los íconos de orden se reemplazaron
     por íconos de Font Awesome vía CSS (evita los 404) en ambas apps.
+
+19. **Habilitar un producto deshabilitado (App Admin).**
+    La baja de productos es lógica (`activo = false`), así que se agregó la acción **Habilitar** en
+    la tabla de Productos para revertirla. Al habilitar se exige que la **categoría esté activa**
+    (para no dejar un producto activo bajo una categoría inactiva, que es el invariante en el que se
+    apoya la regla de deshabilitar categorías). Si la categoría está deshabilitada, se muestra un
+    mensaje pidiendo habilitarla primero. Rehabilitar no altera el stock ni la alerta del producto.

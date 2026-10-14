@@ -134,12 +134,39 @@
         });
     }
 
+    function habilitar(boton) {
+        var id = parseInt($(boton).data('id'), 10);
+        var nombre = $(boton).data('nombre');
+        if (!confirm('¿Habilitar el producto "' + nombre + '"?')) {
+            return;
+        }
+        $.ajax({
+            url: '?handler=Habilitar',
+            type: 'POST',
+            contentType: 'application/json',
+            headers: { 'RequestVerificationToken': antiforgeryToken() },
+            data: JSON.stringify({ id: id })
+        }).done(function (resp) {
+            if (resp && resp.ok) {
+                mostrarExito(resp.mensaje);
+                refrescarTabla();
+            } else {
+                alert((resp && resp.mensaje) || 'No se pudo habilitar el producto.');
+            }
+        }).fail(function () {
+            alert('Ocurrió un error al procesar la solicitud.');
+        });
+    }
+
     $(function () {
         initTabla();
         $('#btnNuevo').on('click', abrirModal);
         $('#btnGuardar').on('click', guardar);
         $('#contenedorTabla').on('click', '.btn-deshabilitar', function () {
             deshabilitar(this);
+        });
+        $('#contenedorTabla').on('click', '.btn-habilitar', function () {
+            habilitar(this);
         });
     });
 })();

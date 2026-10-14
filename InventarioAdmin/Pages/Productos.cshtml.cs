@@ -110,6 +110,44 @@ public class ProductosModel : PageModel
         return new JsonResult(new { ok = true, mensaje = "Producto deshabilitado correctamente." });
     }
 
+    public async Task<IActionResult> OnPostHabilitarAsync([FromBody] IdRequest request)
+    {
+        if (request is null || request.Id <= 0)
+        {
+            return new JsonResult(new { ok = false, mensaje = "Producto inválido." });
+        }
+
+        var producto = await _db.Productos
+            .Include(p => p.Categoria)
+            .FirstOrDefaultAsync(p => p.Id == request.Id);
+        if (producto is null)
+        {
+            return new JsonResult(new { ok = false, mensaje = "El producto no existe." });
+        }
+
+        if (producto.Activo)
+        {
+            return new JsonResult(new { ok = false, mensaje = "El producto ya está habilitado." });
+        }
+
+        // Un producto activo siempre debe tener su categoría activa.
+        if (producto.Categoria is null || !producto.Categoria.Activo)
+        {
+            return new JsonResult(new
+            {
+                ok = false,
+                mensaje = "La categoría del producto está deshabilitada. Habilite la categoría primero."
+            });
+        }
+
+        // Revertir la baja lógica.
+        producto.Activo = true;
+        await _db.SaveChangesAsync();
+
+        _logger.LogInformation("Producto habilitado: {ProductoId}", producto.Id);
+        return new JsonResult(new { ok = true, mensaje = "Producto habilitado correctamente." });
+    }
+
     private async Task<List<ProductoAdminFila>> ObtenerFilasAsync()
     {
         return await _db.Productos

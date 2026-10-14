@@ -15,7 +15,8 @@ de datos SQL Server. No comparten código: cada una tiene sus propias entidades,
 
 
 - **InventarioAdmin**: catálogo (categorías y productos), usuarios, proveedores e historial.
-  Es la **única** que aplica migraciones y seed.
+  Es la **única** que aplica migraciones y seed. Los productos tienen alta y **baja lógica**
+  (*Deshabilitar*), y se pueden **volver a habilitar** (*Habilitar*) desde la misma tabla.
 - **InventarioOperaciones**: solo mueve stock (agregar / sacar) y consulta el historial.
   **No** ejecuta `Migrate()`; al arrancar verifica que la base esté lista.
   Su pantalla de inicio es el **Historial**, con un **banner de stock a la izquierda**: si hay
