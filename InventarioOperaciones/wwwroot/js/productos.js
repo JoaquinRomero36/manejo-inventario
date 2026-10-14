@@ -17,9 +17,11 @@
         }
         tabla = $('#tablaProductos').DataTable({
             order: [[0, 'asc']],
+            // Pantalla táctil: no se usa el selector de cantidad y se fija en 9 (las que entran).
+            pageLength: 9,
+            lengthChange: false,
             language: {
                 search: 'Buscar:',
-                lengthMenu: 'Mostrar _MENU_ registros',
                 info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
                 infoEmpty: 'Sin registros',
                 zeroRecords: 'No se encontraron productos',

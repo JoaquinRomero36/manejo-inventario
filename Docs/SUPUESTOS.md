@@ -123,7 +123,13 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
 
 23. **Banner de alertas a casi todo el alto, sin scroll (pantalla táctil).**
     En pantallas grandes (ancho ≥ 992 px) el panel de alertas ocupa casi todo el alto de la ventana
-    (`height: calc(100vh - 104px)`), dejando un margen. Como la pantalla es **táctil**, la lista
+    (`height: calc(100vh - 128px)`), dejando un margen y sin provocar scroll en la página. Como la pantalla es **táctil**, la lista
     **no scrollea**: se calcula cuántos productos entran y se muestran solo esos, navegando con las
     flechas **◀ Atrás** / **Adelante ▶** y un contador *página / total*. Si todo entra en una sola
     página, las flechas no se muestran. En pantallas chicas el panel queda con su alto natural.
+
+24. **Tablas de Operaciones capadas a 9 filas, sin selector de cantidad.**
+    Como la pantalla es táctil y 10 filas (ni hablar de 25/50) no entran, en las tablas de
+    Operaciones (*Historial* y *Productos*) se quitó el desplegable "Mostrar _N_ registros"
+    (`lengthChange: false`) y se fijó `pageLength: 9`. Se mantienen el buscador y los botones de
+    página *Anterior* / *Siguiente*. Las tablas de Admin no se tocan (no es pantalla táctil).

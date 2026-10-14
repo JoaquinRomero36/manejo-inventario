@@ -166,7 +166,9 @@ table.dataTable thead .sorting_desc::after { content: "\f0dd"; color: #337ab7; }
     .alerta-stock {
         position: sticky;
         top: var(--espacio);
-        height: calc(100vh - 104px);
+        /* Alto del panel = ventana menos navbar, paddings del contenedor y su propio margen,
+           así entra entero sin provocar scroll en la página. */
+        height: calc(100vh - 128px);
     }
 }
 
