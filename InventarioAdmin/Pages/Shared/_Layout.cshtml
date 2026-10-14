@@ -48,6 +48,32 @@
         </main>
     </div>
 
+    <!-- Contenedor de notificaciones (toast, arriba a la derecha) -->
+    <div id="notificaciones" class="notif-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Modal de confirmación reutilizable (reemplaza al confirm() nativo) -->
+    <div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog" aria-labelledby="modalConfirmarTitulo">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalConfirmarTitulo">
+                        <span class="confirmar-titulo">Confirmar</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p class="confirmar-texto"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary confirmar-ok">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @Html.AntiForgeryToken()
 
     <script src="~/lib/jquery/jquery.min.js"></script>

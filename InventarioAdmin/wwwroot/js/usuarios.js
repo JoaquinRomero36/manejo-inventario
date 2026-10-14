@@ -127,25 +127,30 @@
 
     function deshabilitar(boton) {
         var id = parseInt($(boton).data('id'), 10);
-        if (!confirm('¿Deshabilitar el usuario "' + $(boton).data('nombre') + '"?')) {
-            return;
-        }
-        $.ajax({
-            url: '?handler=Deshabilitar',
-            type: 'POST',
-            contentType: 'application/json',
-            headers: { 'RequestVerificationToken': antiforgeryToken() },
-            data: JSON.stringify({ id: id })
-        }).done(function (resp) {
-            if (resp && resp.ok) {
-                mostrarExito(resp.mensaje);
-                refrescarTabla();
-            } else {
-                alert((resp && resp.mensaje) || 'No se pudo deshabilitar el usuario.');
-            }
-        }).fail(function () {
-            alert('Ocurrió un error al procesar la solicitud.');
-        });
+        var nombre = $(boton).data('nombre');
+
+        InventarioUI.confirmar(
+            '¿Deshabilitar el usuario "' + nombre + '"?',
+            function () {
+                $.ajax({
+                    url: '?handler=Deshabilitar',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': antiforgeryToken() },
+                    data: JSON.stringify({ id: id })
+                }).done(function (resp) {
+                    if (resp && resp.ok) {
+                        mostrarExito(resp.mensaje);
+                        refrescarTabla();
+                    } else {
+                        InventarioUI.notificar((resp && resp.mensaje) || 'No se pudo deshabilitar el usuario.', 'danger');
+                    }
+                }).fail(function () {
+                    InventarioUI.notificar('Ocurrió un error al procesar la solicitud.', 'danger');
+                });
+            },
+            { titulo: 'Deshabilitar usuario', estilo: 'btn-danger', textoBoton: 'Deshabilitar' }
+        );
     }
 
     $(function () {

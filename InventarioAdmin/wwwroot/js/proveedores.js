@@ -96,25 +96,30 @@
 
     function eliminar(boton) {
         var id = parseInt($(boton).data('id'), 10);
-        if (!confirm('¿Eliminar el proveedor "' + $(boton).data('numero') + '"?')) {
-            return;
-        }
-        $.ajax({
-            url: '?handler=Eliminar',
-            type: 'POST',
-            contentType: 'application/json',
-            headers: { 'RequestVerificationToken': antiforgeryToken() },
-            data: JSON.stringify({ id: id })
-        }).done(function (resp) {
-            if (resp && resp.ok) {
-                mostrarExito(resp.mensaje);
-                refrescarTabla();
-            } else {
-                alert((resp && resp.mensaje) || 'No se pudo eliminar el proveedor.');
-            }
-        }).fail(function () {
-            alert('Ocurrió un error al procesar la solicitud.');
-        });
+        var numero = $(boton).data('numero');
+
+        InventarioUI.confirmar(
+            '¿Eliminar el proveedor "' + numero + '"?',
+            function () {
+                $.ajax({
+                    url: '?handler=Eliminar',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': antiforgeryToken() },
+                    data: JSON.stringify({ id: id })
+                }).done(function (resp) {
+                    if (resp && resp.ok) {
+                        mostrarExito(resp.mensaje);
+                        refrescarTabla();
+                    } else {
+                        InventarioUI.notificar((resp && resp.mensaje) || 'No se pudo eliminar el proveedor.', 'danger');
+                    }
+                }).fail(function () {
+                    InventarioUI.notificar('Ocurrió un error al procesar la solicitud.', 'danger');
+                });
+            },
+            { titulo: 'Eliminar proveedor', estilo: 'btn-danger', textoBoton: 'Eliminar' }
+        );
     }
 
     $(function () {

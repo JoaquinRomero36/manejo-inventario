@@ -75,25 +75,30 @@
 
     function deshabilitar(boton) {
         var id = parseInt($(boton).data('id'), 10);
-        if (!confirm('¿Deshabilitar la categoría "' + $(boton).data('nombre') + '"?')) {
-            return;
-        }
-        $.ajax({
-            url: '?handler=Deshabilitar',
-            type: 'POST',
-            contentType: 'application/json',
-            headers: { 'RequestVerificationToken': antiforgeryToken() },
-            data: JSON.stringify({ id: id })
-        }).done(function (resp) {
-            if (resp && resp.ok) {
-                mostrarExito(resp.mensaje);
-                refrescarTabla();
-            } else {
-                alert((resp && resp.mensaje) || 'No se pudo deshabilitar la categoría.');
-            }
-        }).fail(function () {
-            alert('Ocurrió un error al procesar la solicitud.');
-        });
+        var nombre = $(boton).data('nombre');
+
+        InventarioUI.confirmar(
+            '¿Deshabilitar la categoría "' + nombre + '"?',
+            function () {
+                $.ajax({
+                    url: '?handler=Deshabilitar',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': antiforgeryToken() },
+                    data: JSON.stringify({ id: id })
+                }).done(function (resp) {
+                    if (resp && resp.ok) {
+                        mostrarExito(resp.mensaje);
+                        refrescarTabla();
+                    } else {
+                        InventarioUI.notificar((resp && resp.mensaje) || 'No se pudo deshabilitar la categoría.', 'danger');
+                    }
+                }).fail(function () {
+                    InventarioUI.notificar('Ocurrió un error al procesar la solicitud.', 'danger');
+                });
+            },
+            { titulo: 'Deshabilitar categoría', estilo: 'btn-danger', textoBoton: 'Deshabilitar' }
+        );
     }
 
     $(function () {

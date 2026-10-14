@@ -113,49 +113,57 @@
     function deshabilitar(boton) {
         var id = parseInt($(boton).data('id'), 10);
         var nombre = $(boton).data('nombre');
-        if (!confirm('¿Deshabilitar el producto "' + nombre + '"?')) {
-            return;
-        }
-        $.ajax({
-            url: '?handler=Deshabilitar',
-            type: 'POST',
-            contentType: 'application/json',
-            headers: { 'RequestVerificationToken': antiforgeryToken() },
-            data: JSON.stringify({ id: id })
-        }).done(function (resp) {
-            if (resp && resp.ok) {
-                mostrarExito(resp.mensaje);
-                refrescarTabla();
-            } else {
-                alert((resp && resp.mensaje) || 'No se pudo deshabilitar el producto.');
-            }
-        }).fail(function () {
-            alert('Ocurrió un error al procesar la solicitud.');
-        });
+
+        InventarioUI.confirmar(
+            '¿Deshabilitar el producto "' + nombre + '"?',
+            function () {
+                $.ajax({
+                    url: '?handler=Deshabilitar',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': antiforgeryToken() },
+                    data: JSON.stringify({ id: id })
+                }).done(function (resp) {
+                    if (resp && resp.ok) {
+                        mostrarExito(resp.mensaje);
+                        refrescarTabla();
+                    } else {
+                        InventarioUI.notificar((resp && resp.mensaje) || 'No se pudo deshabilitar el producto.', 'danger');
+                    }
+                }).fail(function () {
+                    InventarioUI.notificar('Ocurrió un error al procesar la solicitud.', 'danger');
+                });
+            },
+            { titulo: 'Deshabilitar producto', estilo: 'btn-danger', textoBoton: 'Deshabilitar' }
+        );
     }
 
     function habilitar(boton) {
         var id = parseInt($(boton).data('id'), 10);
         var nombre = $(boton).data('nombre');
-        if (!confirm('¿Habilitar el producto "' + nombre + '"?')) {
-            return;
-        }
-        $.ajax({
-            url: '?handler=Habilitar',
-            type: 'POST',
-            contentType: 'application/json',
-            headers: { 'RequestVerificationToken': antiforgeryToken() },
-            data: JSON.stringify({ id: id })
-        }).done(function (resp) {
-            if (resp && resp.ok) {
-                mostrarExito(resp.mensaje);
-                refrescarTabla();
-            } else {
-                alert((resp && resp.mensaje) || 'No se pudo habilitar el producto.');
-            }
-        }).fail(function () {
-            alert('Ocurrió un error al procesar la solicitud.');
-        });
+
+        InventarioUI.confirmar(
+            '¿Habilitar el producto "' + nombre + '"?',
+            function () {
+                $.ajax({
+                    url: '?handler=Habilitar',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': antiforgeryToken() },
+                    data: JSON.stringify({ id: id })
+                }).done(function (resp) {
+                    if (resp && resp.ok) {
+                        mostrarExito(resp.mensaje);
+                        refrescarTabla();
+                    } else {
+                        InventarioUI.notificar((resp && resp.mensaje) || 'No se pudo habilitar el producto.', 'danger');
+                    }
+                }).fail(function () {
+                    InventarioUI.notificar('Ocurrió un error al procesar la solicitud.', 'danger');
+                });
+            },
+            { titulo: 'Habilitar producto', estilo: 'btn-success', textoBoton: 'Habilitar' }
+        );
     }
 
     $(function () {

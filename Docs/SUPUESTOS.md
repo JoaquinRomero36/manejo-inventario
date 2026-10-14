@@ -96,3 +96,11 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
     (para no dejar un producto activo bajo una categoría inactiva, que es el invariante en el que se
     apoya la regla de deshabilitar categorías). Si la categoría está deshabilitada, se muestra un
     mensaje pidiendo habilitarla primero. Rehabilitar no altera el stock ni la alerta del producto.
+
+20. **Avisos y confirmaciones sin diálogos nativos (App Admin).**
+    Se reemplazaron los `alert()` por **notificaciones tipo toast** (arriba a la derecha, color según
+    el caso, con autocierre a los 5 s y botón para cerrarlas) y los `confirm()` por un **modal de
+    confirmación Bootstrap** reutilizable. Todo se centraliza en `wwwroot/js/site.js`
+    (`InventarioUI.notificar` / `InventarioUI.confirmar`), el markup del modal y del contenedor está
+    en `Pages/Shared/_Layout.cshtml` y los estilos en `wwwroot/css/site.css`. Los mensajes de éxito
+    que ya usaban la banda `#alertaExito` se mantienen igual.
