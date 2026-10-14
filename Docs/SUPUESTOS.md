@@ -76,3 +76,16 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
     operador de la semilla** (el primer usuario con `rol = normal`). Si no existiera ningún usuario
     `normal`, el servidor devuelve un error claro en vez de guardar un movimiento sin usuario.
     El usuario admin queda solo como registro histórico.
+
+17. **Pantalla principal de Operaciones = Historial con banner de stock.**
+    El Historial pasó a ser la página de inicio (la tabla más importante) con un **banner a la
+    izquierda**:
+    - si hay productos con la **alerta activa**, lista esos productos con su disponible y mínimo;
+    - si **no** hay alertas, muestra los **3 productos activos con menor margen** sobre el mínimo
+      (`disponible − mínimo`), para avisar cuáles están más cerca de disparar la alerta.
+    La alerta se toma del flag `Stock.alerta_activa` (coherente con la columna *Estado*), no de un
+    cálculo nuevo. Los movimientos de stock siguen en la pestaña *Productos*.
+
+18. **Íconos de orden de DataTables.**
+    La carpeta `images/` de DataTables no se vendorizó, así que los íconos de orden se reemplazaron
+    por íconos de Font Awesome vía CSS (evita los 404) en ambas apps.

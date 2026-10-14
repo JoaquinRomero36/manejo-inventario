@@ -5,5 +5,5 @@ namespace InventarioOperaciones.Pages;
 
 public class IndexModel : PageModel
 {
-    public IActionResult OnGet() => RedirectToPage("/Productos");
+    public IActionResult OnGet() => RedirectToPage("/Historial");
 }

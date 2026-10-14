@@ -4,43 +4,112 @@
     ViewData["Title"] = "Historial de movimientos";
 }
 
-<h2><i class="fa fa-history" aria-hidden="true"></i> Historial de movimientos</h2>
-<hr />
-
-<table id="tablaHistorial" class="table table-striped table-bordered table-condensed" style="width:100%">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Producto</th>
-            <th>Tipo</th>
-            <th class="text-right">Cantidad</th>
-            <th>Descripción</th>
-            <th>Usuario</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var m in Model.Movimientos)
+<div class="row">
+    <!-- Banner de stock (lado izquierdo) -->
+    <div class="col-md-4 col-lg-3">
+        @if (Model.HayAlertas)
         {
-            <tr>
-                <td>@m.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@m.Producto</td>
-                <td>
-                    @if (m.Tipo == "Agregar")
-                    {
-                        <span class="label label-success">Agregar</span>
-                    }
-                    else
-                    {
-                        <span class="label label-warning">Sacar</span>
-                    }
-                </td>
-                <td class="text-right">@m.Cantidad</td>
-                <td>@m.Descripcion</td>
-                <td>@m.Usuario</td>
-            </tr>
+            <div class="panel panel-danger alerta-stock">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Alerta de stock
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <p class="alerta-stock-resumen">
+                        Hay <strong>@Model.Alertas.Count</strong>
+                        producto(s) por debajo del mínimo.
+                    </p>
+                    <ul class="list-unstyled alerta-stock-lista">
+                        @foreach (var a in Model.Alertas)
+                        {
+                            <li>
+                                <span class="alerta-stock-nombre">@a.Nombre</span>
+                                <span class="alerta-stock-cifras">
+                                    disponible <strong>@a.CantidadDisponible</strong> / mínimo @a.CantidadMinima
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="panel panel-success alerta-stock">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        Sin alertas de stock
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <p class="alerta-stock-resumen">Ningún producto está por debajo del mínimo.</p>
+
+                    @if (Model.CercanosAlMinimo.Count > 0)
+                    {
+                        <p class="alerta-stock-subtitulo">Los más cerca del mínimo:</p>
+                        <ul class="list-unstyled alerta-stock-lista">
+                            @foreach (var p in Model.CercanosAlMinimo)
+                            {
+                                <li>
+                                    <span class="alerta-stock-nombre">@p.Nombre</span>
+                                    <span class="alerta-stock-cifras">
+                                        disponible <strong>@p.CantidadDisponible</strong> / mínimo @p.CantidadMinima
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Historial de movimientos (contenido principal) -->
+    <div class="col-md-8 col-lg-9">
+        <h2 class="historial-titulo">
+            <i class="fa fa-history" aria-hidden="true"></i> Historial de movimientos
+        </h2>
+        <hr />
+
+        <table id="tablaHistorial" class="table table-striped table-bordered table-condensed" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Producto</th>
+                    <th>Tipo</th>
+                    <th class="text-right">Cantidad</th>
+                    <th>Descripción</th>
+                    <th>Usuario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model.Movimientos)
+                {
+                    <tr>
+                        <td>@m.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@m.Producto</td>
+                        <td>
+                            @if (m.Tipo == "Agregar")
+                            {
+                                <span class="label label-success">Agregar</span>
+                            }
+                            else
+                            {
+                                <span class="label label-warning">Sacar</span>
+                            }
+                        </td>
+                        <td class="text-right">@m.Cantidad</td>
+                        <td>@m.Descripcion</td>
+                        <td>@m.Usuario</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/js/historial.js"></script>

@@ -62,3 +62,6 @@ coverage/
 *.jfm
 *.dbmdl
 *.userprefs
+
+# Artefactos de Playwright MCP (capturas/snapshots locales)
+.playwright-mcp/

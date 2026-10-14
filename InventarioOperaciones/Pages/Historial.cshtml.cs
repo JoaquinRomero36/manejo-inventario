@@ -7,6 +7,8 @@ namespace InventarioOperaciones.Pages;
 
 public class HistorialModel : PageModel
 {
+    private const int CantidadCercanosAlMinimo = 3;
+
     private readonly InventarioDbContext _db;
 
     public HistorialModel(InventarioDbContext db)
@@ -15,6 +17,17 @@ public class HistorialModel : PageModel
     }
 
     public List<MovimientoFila> Movimientos { get; set; } = new();
+
+    /// <summary>Productos activos con la alerta de stock activa (disponible por debajo del mínimo).</summary>
+    public List<ProductoAlertaFila> Alertas { get; set; } = new();
+
+    /// <summary>
+    /// Productos activos sin alerta, ordenados por menor margen sobre el mínimo.
+    /// Se usan cuando no hay ninguna alerta para avisar cuáles están más cerca de dispararla.
+    /// </summary>
+    public List<ProductoAlertaFila> CercanosAlMinimo { get; set; } = new();
+
+    public bool HayAlertas => Alertas.Count > 0;
 
     public async Task OnGetAsync()
     {
@@ -33,6 +46,32 @@ public class HistorialModel : PageModel
                 Usuario = m.Usuario != null ? m.Usuario.Nombre : "-"
             })
             .ToListAsync();
+
+        var productosConStock = await _db.Productos
+            .AsNoTracking()
+            .Where(p => p.Activo)
+            .Select(p => new ProductoAlertaFila
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                CantidadDisponible = p.Stock != null ? p.Stock.CantidadDisponible : 0,
+                CantidadMinima = p.Stock != null ? p.Stock.CantidadMinima : 0,
+                AlertaActiva = p.Stock != null && p.Stock.AlertaActiva
+            })
+            .ToListAsync();
+
+        Alertas = productosConStock
+            .Where(p => p.AlertaActiva)
+            .OrderBy(p => p.Margen)
+            .ThenBy(p => p.Nombre)
+            .ToList();
+
+        CercanosAlMinimo = productosConStock
+            .Where(p => !p.AlertaActiva)
+            .OrderBy(p => p.Margen)
+            .ThenBy(p => p.Nombre)
+            .Take(CantidadCercanosAlMinimo)
+            .ToList();
     }
 }
 
@@ -44,4 +83,17 @@ public class MovimientoFila
     public int Cantidad { get; set; }
     public string Descripcion { get; set; } = string.Empty;
     public string Usuario { get; set; } = string.Empty;
+}
+
+/// <summary>Producto con su stock, usado por el banner de alertas del historial.</summary>
+public class ProductoAlertaFila
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; } = string.Empty;
+    public int CantidadDisponible { get; set; }
+    public int CantidadMinima { get; set; }
+    public bool AlertaActiva { get; set; }
+
+    /// <summary>Cuánto está por encima (o por debajo) del mínimo.</summary>
+    public int Margen => CantidadDisponible - CantidadMinima;
 }

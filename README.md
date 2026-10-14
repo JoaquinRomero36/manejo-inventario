@@ -7,7 +7,7 @@ de datos SQL Server. No comparten código: cada una tiene sus propias entidades,
 | App | Carpeta | Usuarios | Entrada |
 |-----|---------|----------|---------|
 | **InventarioAdmin** | `InventarioAdmin/` | Encargado / administrador | Directo al Dashboard |
-| **InventarioOperaciones** | `InventarioOperaciones/` | Trabajadores de bodega | Directo a Productos |
+| **InventarioOperaciones** | `InventarioOperaciones/` | Trabajadores de bodega | Directo al Historial |
 
 > **Sin login.** La separación de accesos es **física**: en la bodega hay dos pantallas, cada una
 > con una app distinta. No hay autenticación obligatoria; las páginas `Login`/`Logout` quedan
@@ -18,6 +18,9 @@ de datos SQL Server. No comparten código: cada una tiene sus propias entidades,
   Es la **única** que aplica migraciones y seed.
 - **InventarioOperaciones**: solo mueve stock (agregar / sacar) y consulta el historial.
   **No** ejecuta `Migrate()`; al arrancar verifica que la base esté lista.
+  Su pantalla de inicio es el **Historial**, con un **banner de stock a la izquierda**: si hay
+  productos con la alerta activa muestra el mensaje de alerta; si no hay ninguna, muestra los
+  **3 productos más cerca del mínimo**. Los movimientos se hacen desde la pestaña *Productos*.
 
 ## Stack
 
@@ -129,7 +132,8 @@ En IIS, crear **dos sitios** con **dos app pools** y **dos puertos/host** distin
 La separación es **física**, no por login: hay dos pantallas en la bodega y cada una corre una app.
 
 - **Admin** (encargado): entra directo al Dashboard y administra catálogo, usuarios y proveedores.
-- **Operaciones** (trabajadores): entra directo a Productos y solo mueve stock / consulta historial.
+- **Operaciones** (trabajadores): entra directo al **Historial** (banner de stock + tabla de
+  movimientos) y mueve stock desde *Productos*.
 
 No hay autenticación obligatoria. Las páginas `Login`/`Logout` quedan sin uso (se conservan por si
 más adelante se quiere reactivar el login).
