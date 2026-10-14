@@ -38,6 +38,12 @@ table.dataTable thead th {
     background-color: #eef2f7;
 }
 
+/* El buscador de DataTables queda pegado al borde superior de la tabla, con 1px de margen
+   (Bootstrap le pone 5px de margen inferior a la etiqueta). */
+.dataTables_filter label {
+    margin-bottom: 1px;
+}
+
 /* Íconos de orden de DataTables: la carpeta images/ no se vendorizó, así que
    se reemplazan por íconos de Font Awesome para evitar los 404. */
 table.dataTable thead .sorting,
