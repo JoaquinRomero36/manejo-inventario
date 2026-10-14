@@ -83,6 +83,31 @@ public class CategoriasModel : PageModel
         return new JsonResult(new { ok = true, mensaje = "Categoría deshabilitada correctamente." });
     }
 
+    public async Task<IActionResult> OnPostHabilitarAsync([FromBody] IdRequest request)
+    {
+        if (request is null || request.Id <= 0)
+        {
+            return new JsonResult(new { ok = false, mensaje = "Categoría inválida." });
+        }
+
+        var categoria = await _db.Categorias.FirstOrDefaultAsync(c => c.Id == request.Id);
+        if (categoria is null)
+        {
+            return new JsonResult(new { ok = false, mensaje = "La categoría no existe." });
+        }
+
+        if (categoria.Activo)
+        {
+            return new JsonResult(new { ok = false, mensaje = "La categoría ya está habilitada." });
+        }
+
+        categoria.Activo = true;
+        await _db.SaveChangesAsync();
+
+        _logger.LogInformation("Categoría habilitada: {CategoriaId}", categoria.Id);
+        return new JsonResult(new { ok = true, mensaje = "Categoría habilitada correctamente." });
+    }
+
     private async Task<List<CategoriaFila>> ObtenerFilasAsync()
     {
         return await _db.Categorias

@@ -101,12 +101,43 @@
         );
     }
 
+    function habilitar(boton) {
+        var id = parseInt($(boton).data('id'), 10);
+        var nombre = $(boton).data('nombre');
+
+        InventarioUI.confirmar(
+            '¿Habilitar la categoría "' + nombre + '"?',
+            function () {
+                $.ajax({
+                    url: '?handler=Habilitar',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': antiforgeryToken() },
+                    data: JSON.stringify({ id: id })
+                }).done(function (resp) {
+                    if (resp && resp.ok) {
+                        mostrarExito(resp.mensaje);
+                        refrescarTabla();
+                    } else {
+                        InventarioUI.notificar((resp && resp.mensaje) || 'No se pudo habilitar la categoría.', 'danger');
+                    }
+                }).fail(function () {
+                    InventarioUI.notificar('Ocurrió un error al procesar la solicitud.', 'danger');
+                });
+            },
+            { titulo: 'Habilitar categoría', estilo: 'btn-success', textoBoton: 'Habilitar' }
+        );
+    }
+
     $(function () {
         initTabla();
         $('#btnNueva').on('click', abrirModal);
         $('#btnGuardar').on('click', guardar);
         $('#contenedorTabla').on('click', '.btn-deshabilitar', function () {
             deshabilitar(this);
+        });
+        $('#contenedorTabla').on('click', '.btn-habilitar', function () {
+            habilitar(this);
         });
     });
 })();

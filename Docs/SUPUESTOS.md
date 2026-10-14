@@ -104,3 +104,10 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
     (`InventarioUI.notificar` / `InventarioUI.confirmar`), el markup del modal y del contenedor está
     en `Pages/Shared/_Layout.cshtml` y los estilos en `wwwroot/css/site.css`. Los mensajes de éxito
     que ya usaban la banda `#alertaExito` se mantienen igual.
+
+21. **Habilitar una categoría deshabilitada (App Admin).**
+    Igual que en productos, la baja de categorías es lógica (`activo = false`), así que se agregó la
+    acción **Habilitar** en la tabla de Categorías. Habilitar una categoría no tiene restricciones
+    (es la operación inversa de deshabilitar) y no altera sus productos ni su stock. El invariante
+    se mantiene en el otro sentido: para **deshabilitar** se sigue exigiendo que la categoría **no**
+    tenga productos activos.
