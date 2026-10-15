@@ -133,3 +133,11 @@ Cuando algo era ambiguo se eligió la opción más simple. Estas son las decisio
     Operaciones (*Historial* y *Productos*) se quitó el desplegable "Mostrar _N_ registros"
     (`lengthChange: false`) y se fijó `pageLength: 9`. Se mantienen el buscador y los botones de
     página *Anterior* / *Siguiente*. Las tablas de Admin no se tocan (no es pantalla táctil).
+
+25. **Errores siempre con mensaje amigable (sin stack trace).**
+    Antes, en Development, una excepción no controlada mostraba la *Developer Exception Page* de
+    ASP.NET (texto técnico con stack trace, que asusta a quien opera la pantalla). Ahora ambas
+    apps registran `app.UseExceptionHandler("/Error")` **siempre** (no solo en Production), así
+    que cualquier excepción no controlada muestra la página `Error.cshtml` con un texto simple
+    ("Ups, algo salió mal...") y, opcionalmente, una referencia para buscar en los logs. El detalle
+    técnico sigue quedando en `logs/` para el administrador. Se conserva HSTS solo en Production.
