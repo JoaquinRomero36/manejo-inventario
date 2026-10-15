@@ -62,9 +62,12 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// Siempre se muestra la página amigable /Error (nunca la stack trace del desarrollador),
+// para que las personas no se asusten ante un error inesperado.
+app.UseExceptionHandler("/Error");
+
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
