@@ -152,6 +152,7 @@ public class ProductosModel : PageModel
             .AsNoTracking()
             .Include(p => p.Categoria)
             .Include(p => p.Stock)
+            .Where(p => p.Activo)
             .OrderBy(p => p.Nombre)
             .Select(p => new ProductoFila
             {
